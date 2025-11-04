@@ -1,4 +1,4 @@
-package us.awfl.workflows.codegen
+package us.awfl.compiler.workflows.codegen
 
 object ReflectionUtil {
   // Try loading a class by common Scala/JVM name patterns, including nested types with '$'

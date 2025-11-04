@@ -1,11 +1,13 @@
+package us.awfl.compiler
+
 import java.nio.file.{Files, Paths}
 import us.awfl.dsl._
 import us.awfl.dsl
-import core.PathsUtil._
+import us.awfl.compiler.PathsUtil._
 import WorkflowLoader._
 import YamlGen._
-import core.TypeInference._
-import us.awfl.workflows.codegen.ApiFacade
+import us.awfl.compiler.TypeInference._
+import us.awfl.compiler.workflows.codegen.ApiFacade
 
 // Alias to avoid confusion with dsl.Workflow
 import us.awfl.core.{Workflow as CoreWorkflow}
@@ -45,10 +47,9 @@ object Main {
     val workflows = wfTrait.workflows.asInstanceOf[List[dsl.Workflow[_]]]
     val inputValue = wfTrait.inputVal.asInstanceOf[BaseValue[_]]
 
-    val normalizedBase = classNameArg
-    writeWorkflowsYaml(workflows, outputDir, normalizedBase)
+    writeWorkflowsYaml(workflows, outputDir, wfTrait.workflowName)
 
-    val defName = normalizedBase
+    val defName = classNameArg
     val (inputTypeOpt0, outputTypeOpt0): (Option[String], Option[String]) = inferInOutTypes(fqcn)
 
     val inputTypeOpt = inputTypeOpt0.map(normalizeFqcn).orElse(Some(s"${fqcn}.Input"))

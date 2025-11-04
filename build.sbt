@@ -1,7 +1,7 @@
 // build.sbt
 ThisBuild / scalaVersion := "3.3.1"
 
-name := "awfl-workflows"
+name := "compiler"
 organization := "us.awfl"
 version := "0.1.0-SNAPSHOT"
 
@@ -9,7 +9,7 @@ version := "0.1.0-SNAPSHOT"
 libraryDependencies ++= Seq(
   "us.awfl" %% "dsl" % "0.1.0-SNAPSHOT",
   "us.awfl" %% "compiler-yaml" % "0.1.0-SNAPSHOT",
-  "us.awfl" %% "workflows" % "0.1.0-SNAPSHOT",
+  "us.awfl" %% "workflow-utils" % "0.1.0-SNAPSHOT",
   "io.circe" %% "circe-core"   % "0.14.7",
   // "io.circe" %% "circe-generic"% "0.14.7",
   // "io.circe" %% "circe-parser" % "0.14.7",

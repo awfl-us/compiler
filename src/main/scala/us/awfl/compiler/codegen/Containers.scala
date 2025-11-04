@@ -1,4 +1,4 @@
-package us.awfl.workflows.codegen
+package us.awfl.compiler.workflows.codegen
 
 object Containers {
   // Primitive and special types that should not emit $ref

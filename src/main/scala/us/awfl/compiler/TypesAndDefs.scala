@@ -1,6 +1,8 @@
+package us.awfl.compiler
+
 import io.circe.JsonObject
 import java.nio.file.Path
-import us.awfl.workflows.codegen.ApiFacade
+import us.awfl.compiler.workflows.codegen.ApiFacade
 import us.awfl.dsl.BaseValue
 
 // Thin compatibility shim delegating to workflows.codegen.ApiFacade

@@ -1,9 +1,9 @@
-package us.awfl.workflows.codegen
+package us.awfl.compiler.workflows.codegen
 
 import io.circe.{Json, JsonObject}
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Path}
-import core.TypeInference._
+import us.awfl.compiler.TypeInference._
 import us.awfl.dsl.BaseValue
 
 object ApiFacade {

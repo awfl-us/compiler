@@ -1,3 +1,5 @@
+package us.awfl.compiler
+
 import io.circe.syntax._
 import io.circe.yaml._
 import io.circe.yaml.syntax._

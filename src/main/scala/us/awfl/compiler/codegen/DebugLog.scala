@@ -1,4 +1,4 @@
-package us.awfl.workflows.codegen
+package us.awfl.compiler.workflows.codegen
 
 /**
   * Lightweight debug logger for schema/codegen instrumentation.

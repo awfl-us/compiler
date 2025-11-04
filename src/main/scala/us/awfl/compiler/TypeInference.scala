@@ -1,7 +1,7 @@
-package core
+package us.awfl.compiler
 
 import java.nio.file.Path
-import core.PathsUtil._
+import us.awfl.compiler.PathsUtil._
 
 object TypeInference {
   private def classBaseName(fqcn: String): String = fqcn.split('.').lastOption.getOrElse(fqcn)

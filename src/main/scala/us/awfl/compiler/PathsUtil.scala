@@ -1,4 +1,4 @@
-package core
+package us.awfl.compiler
 
 import java.nio.file.{Files, Paths, Path}
 import java.nio.charset.StandardCharsets

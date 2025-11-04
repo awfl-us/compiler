@@ -1,4 +1,4 @@
-package us.awfl.workflows.codegen
+package us.awfl.compiler.workflows.codegen
 
 import us.awfl.dsl._
 import io.circe.{Json, JsonObject}

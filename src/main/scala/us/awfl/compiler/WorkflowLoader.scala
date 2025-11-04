@@ -1,3 +1,5 @@
+package us.awfl.compiler
+
 import scala.util.Try
 
 object WorkflowLoader {
