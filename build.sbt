@@ -3,23 +3,36 @@ ThisBuild / scalaVersion := "3.3.1"
 
 name := "compiler"
 organization := "us.awfl"
-version := "0.1.0-SNAPSHOT"
 
-// Circe Core + Generic + Parser + YAML
+// Versioning via git tags managed by sbt-dynver
+ThisBuild / versionScheme := Some("early-semver")
+// If your tags are not prefixed with "v", uncomment:
+// ThisBuild / dynverTagPrefix := ""
+
+// Maven Central metadata
+ThisBuild / description := "Compile AWFL DSL workflows into YAML and JSON Schemas"
+ThisBuild / homepage := Some(url("https://github.com/awfl-us/compiler"))
+ThisBuild / licenses := List("MIT" -> url("https://opensource.org/licenses/MIT"))
+ThisBuild / scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/awfl-us/compiler"),
+    "scm:git:https://github.com/awfl-us/compiler.git",
+    Some("scm:git:ssh://git@github.com/awfl-us/compiler.git")
+  )
+)
+ThisBuild / developers := List(
+  Developer(id = "awfl-us", name = "AWFL", email = "opensource@awfl.us", url = url("https://github.com/awfl-us"))
+)
+ThisBuild / pomIncludeRepository := { _ => false }
+publishMavenStyle := true
+
+// Dependencies
 libraryDependencies ++= Seq(
-  "us.awfl" %% "dsl" % "0.1.0-SNAPSHOT",
-  "us.awfl" %% "compiler-yaml" % "0.1.0-SNAPSHOT",
-  "us.awfl" %% "workflow-utils" % "0.1.0-SNAPSHOT",
+  "us.awfl" %% "dsl" % "0.1.1",
+  "us.awfl" %% "compiler-yaml" % "0.1.1",
+  "us.awfl" %% "workflow-utils" % "0.1.1",
   "io.circe" %% "circe-core"   % "0.14.7",
-  // "io.circe" %% "circe-generic"% "0.14.7",
-  // "io.circe" %% "circe-parser" % "0.14.7",
-  "io.circe" %% "circe-yaml"   % "0.14.2",
-  // // Jackson Scala module (Scala 3 compatible)
-  // "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.17.2",
-  // // Victools JSON Schema generator + Jackson module (Java libs)
-  // "com.github.victools" %  "jsonschema-generator"       % "4.36.0",
-  // "com.github.victools" %  "jsonschema-module-jackson"  % "4.36.0"
+  "io.circe" %% "circe-yaml"   % "0.14.2"
 )
 
-publishMavenStyle := true
 scalacOptions ++= Seq("-deprecation", "-feature", "-language:implicitConversions")
