@@ -24,15 +24,25 @@ ThisBuild / developers := List(
   Developer(id = "awfl-us", name = "AWFL", email = "opensource@awfl.us", url = url("https://github.com/awfl-us"))
 )
 ThisBuild / pomIncludeRepository := { _ => false }
+
+ThisBuild / version ~= { v =>
+  if (sys.env.get("CI").contains("true")) v
+  else "0.1.0-SNAPSHOT"
+}
+
 publishMavenStyle := true
 
 // Dependencies
 libraryDependencies ++= Seq(
-  "us.awfl" %% "dsl" % "0.1.1",
-  "us.awfl" %% "compiler-yaml" % "0.1.1",
-  "us.awfl" %% "workflow-utils" % "0.1.1",
+  "us.awfl" %% "dsl" % "0.1.2",
+  "us.awfl" %% "compiler-yaml" % "0.1.2",
+  "us.awfl" %% "workflow-utils" % "0.1.3",
   "io.circe" %% "circe-core"   % "0.14.7",
   "io.circe" %% "circe-yaml"   % "0.14.2"
 )
+
+// dependencyOverrides += "us.awfl" %% "dsl" % "0.1.0-SNAPSHOT"
+// dependencyOverrides += "us.awfl" %% "compiler-yaml" % "0.1.0-SNAPSHOT"
+// dependencyOverrides += "us.awfl" %% "workflow-utils" % "0.1.0-SNAPSHOT"
 
 scalacOptions ++= Seq("-deprecation", "-feature", "-language:implicitConversions")
