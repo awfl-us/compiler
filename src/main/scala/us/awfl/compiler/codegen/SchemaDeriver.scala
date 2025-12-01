@@ -36,8 +36,10 @@ object SchemaDeriver {
       case Some(inner) => encode(obj(inner))
       case None        => ObjValue(Json.Null)
 
-      case opt: OptValue[_] =>
+      case opt: OptResolved[_] =>
         encode(opt.getOrElse(Value.nil(opt.spec)))
+      case OptObj(obj) =>
+        encode(obj)
       case opt: OptList[_] =>
         encode(opt.getOrElse(ListValue.nil(opt.spec)))
 
