@@ -18,9 +18,6 @@ object SchemaDeriver {
 
   def encode(value: BaseValue[_]): ObjValue = value match {
     // For Resolved values, materialize a concrete value via Spec.init (through .get or direct for Field)
-    case f: FieldValue =>
-      val v: String = summon[Spec[String]].init(f.resolver)
-      encode(Obj(v))
 
     case r: Resolved[_] =>
       val concrete: Any = r.get // uses the implicit Spec for the underlying type

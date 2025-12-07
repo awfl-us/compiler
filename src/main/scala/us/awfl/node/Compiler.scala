@@ -44,7 +44,7 @@ object Compiler {
       val toStr = encodeCel(fr.to)
       s"""{ "kind": "ForRange", "name": "${sanitizeId(fr.name)}", "idx": "${fr.name}Idx", "from": "${fromStr}", "to": "${toStr}" }"""
 
-    case fd: Fold[_, _] =>
+    case fd: Fold[_, _, _] =>
       val listStr = encodeCel(fd.list.resolver.path)
       s"""{ "kind": "Fold", "name": "${sanitizeId(fd.name)}", "itemName": "${fd.item}", "list": "${listStr}" }"""
 
