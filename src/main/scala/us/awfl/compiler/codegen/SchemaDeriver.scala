@@ -20,7 +20,7 @@ object SchemaDeriver {
     // For Resolved values, materialize a concrete value via Spec.init (through .get or direct for Field)
 
     case r: Resolved[_] =>
-      val concrete: Any = r.get // uses the implicit Spec for the underlying type
+      val concrete: Any = r.spec.init(r.resolver.copy(safe = true)) // uses the implicit Spec for the underlying type
       encode(Obj(concrete))
 
     case Obj(v) => v match {

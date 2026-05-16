@@ -8,21 +8,55 @@ import WorkflowLoader._
 import YamlGen._
 import us.awfl.compiler.TypeInference._
 import us.awfl.compiler.workflows.codegen.ApiFacade
+import scala.util.control.NoStackTrace
 
 // Alias to avoid confusion with dsl.Workflow
 import us.awfl.core.{Workflow as CoreWorkflow}
 
 object Main {
+  // Lightweight exit signal we can catch to control the final status code without relying on sys.exit
+  private final case class Exit(code: Int, message: String = "")
+      extends RuntimeException(message)
+      with NoStackTrace
+
+  private def die(code: Int, msg: String): Nothing = throw Exit(code, msg)
+
   def main(args: Array[String]): Unit = {
+    // Capture all throwables so we can deterministically signal failure to sbt and CI
+    val exitCode: Int = try {
+      run(args)
+      0
+    } catch {
+      case Exit(code, msg) =>
+        if (msg != null && msg.nonEmpty) System.err.println(msg)
+        code
+      case t: Throwable =>
+        System.err.println("Fatal error while running awfl compiler:")
+        t.printStackTrace(System.err)
+        1
+    }
+
+    // Ensure the process (or sbt's trapped runner) observes a non-zero status on failure.
+    try {
+      java.lang.System.exit(exitCode)
+    } catch {
+      // In non-forked sbt runs, System.exit is trapped. Re-throw to surface a failure when non-zero.
+      case _: SecurityException if exitCode != 0 =>
+        throw new RuntimeException(s"Exiting with non-zero status: $exitCode")
+      case _: SecurityException => ()
+    }
+  }
+
+  private def run(args: Array[String]): Unit = {
     if (args.length < 1) {
-      System.err.println(
+      die(
+        1,
         "Usage: Main <WorkflowClassName> [OutputDirectory]\n" +
           "Examples:\n" +
           "  Main workflows.codebase.workflows.WorkflowBuilder\n" +
           "  Main WorkflowBuilder   # shorthand (tries workflows.cli.WorkflowBuilder)\n" +
           "\nNote: The workflow must be a Scala object extending core.Workflow[In, Out]."
       )
-      sys.exit(1)
     }
 
     val classNameArg = args(0)
@@ -35,12 +69,10 @@ object Main {
 
     // Require the new core.Workflow trait with a Scala object module
     if (module == null) {
-      System.err.println(s"${fqcn} must be a Scala object extending core.Workflow[In, Out]. Found a plain class.")
-      sys.exit(2)
+      die(2, s"${fqcn} must be a Scala object extending core.Workflow[In, Out]. Found a plain class.")
     }
     if (!classOf[CoreWorkflow].isAssignableFrom(module.getClass)) {
-      System.err.println(s"${fqcn} does not extend core.Workflow[In, Out]. Please implement the trait.")
-      sys.exit(2)
+      die(2, s"${fqcn} does not extend core.Workflow[In, Out]. Please implement the trait.")
     }
 
     val wfTrait = module.asInstanceOf[CoreWorkflow]
