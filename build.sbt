@@ -34,9 +34,9 @@ publishMavenStyle := true
 
 // Dependencies
 libraryDependencies ++= Seq(
-  "us.awfl" %% "dsl" % "0.3.1",
-  "us.awfl" %% "compiler-yaml" % "0.3.1",
-  "us.awfl" %% "workflow-utils" % "0.3.1",
+  "us.awfl" %% "dsl" % "0.3.5",
+  "us.awfl" %% "compiler-yaml" % "0.3.2",
+  "us.awfl" %% "workflow-utils" % "0.3.5",
   "io.circe" %% "circe-core"   % "0.14.7",
   "io.circe" %% "circe-yaml"   % "0.14.2"
 )
